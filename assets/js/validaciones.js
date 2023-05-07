@@ -92,12 +92,9 @@ const validadores = {
     input.setCustomValidity(mensaje);
 }
 
-
-
-function mayorEdad(fecha){
-    const fechaActual = new Date();
-    const diferenciaFechas = fechaActual - fecha;
-    const edad = diferenciaFechas / (1000 * 60 * 60 * 24 * 365);
-    console.log(edad);
-    console.log(edad >= 18);
+function mayorEdad(fecha) {
+  const fechaActual = new Date();
+  const diferenciaFechas = fechaActual - fecha;
+  const edad = diferenciaFechas / (1000 * 60 * 60 * 24 * 365);
+  return edad >= 18;
 }
