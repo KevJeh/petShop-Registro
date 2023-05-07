@@ -65,35 +65,39 @@ const validadores = {
     nacimiento: input => validarNacimiento(input)
 }
 
-function validarNacimiento(input) {
-    const fechaCliente = new Date(input.value);
-    let mensaje = "";
-    if (input.validity.valueMissing) {
-      mensaje = "Este campo no puede estar vacío";
-    } else if (!mayorEdad(fechaCliente)) {
-      mensaje = "Debes tener al menos 18 años de edad";
-    }
-    input.setCustomValidity(mensaje);
-    return mensaje;
-  }
-  
+
   function mostrarMensajeDeError(tipoDeInput, input) {
     let mensaje = "";
-    tipoDeErrores.forEach((error) => {
-      if (input.validity[error]) {
-        mensaje = mensajesDeError[tipoDeInput][error];
-        if (input.validity.valueMissing) {
-          mensaje = "Este campo no puede estar vacío";
+    if (input.validity.valueMissing) {
+      mensaje = mensajesDeError[tipoDeInput].valueMissing;
+    } else {
+      tipoDeErrores.forEach((error) => {
+        if (input.validity[error]) {
+          mensaje = mensajesDeError[tipoDeInput][error];
         }
-      }
-    });
+      });
+    }
     return mensaje;
   }
   
-  
-  function mayorEdad(fecha) {
+
+  function validarNacimiento(input){
+    const fechaCliente = new Date(input.value);
+    let mensaje = "";
+    if (isNaN(fechaCliente.getTime())) {
+        mensaje = "Por favor ingrese una fecha válida";
+    } else if(!mayorEdad(fechaCliente)){
+        mensaje = "Debes tener al menos 18 años";
+    }
+    input.setCustomValidity(mensaje);
+}
+
+
+
+function mayorEdad(fecha){
     const fechaActual = new Date();
     const diferenciaFechas = fechaActual - fecha;
     const edad = diferenciaFechas / (1000 * 60 * 60 * 24 * 365);
-    return edad >= 18;
-  }
+    console.log(edad);
+    console.log(edad >= 18);
+}
