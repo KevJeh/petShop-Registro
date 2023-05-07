@@ -65,35 +65,35 @@ const validadores = {
     nacimiento: input => validarNacimiento(input)
 }
 
-function mostrarMensajeDeError(tipoDeInput, input) {
+function validarNacimiento(input) {
+    const fechaCliente = new Date(input.value);
+    let mensaje = "";
+    if (input.validity.valueMissing) {
+      mensaje = "Este campo no puede estar vacío";
+    } else if (!mayorEdad(fechaCliente)) {
+      mensaje = "Debes tener al menos 18 años de edad";
+    }
+    input.setCustomValidity(mensaje);
+    return mensaje;
+  }
+  
+  function mostrarMensajeDeError(tipoDeInput, input) {
     let mensaje = "";
     tipoDeErrores.forEach((error) => {
       if (input.validity[error]) {
-        console.log(tipoDeInput, error);
-        console.log(input.validity[error]);
-        console.log(mensajesDeError[tipoDeInput][error]);
         mensaje = mensajesDeError[tipoDeInput][error];
+        if (input.validity.valueMissing) {
+          mensaje = "Este campo no puede estar vacío";
+        }
       }
     });
     return mensaje;
   }
-
-function validarNacimiento(input){
-    const fechaCliente = new Date(input.value);
-    let mensaje="";
-    if(!mayorEdad(fechaCliente)){
-        mensaje = "debes tener almenos 18 años"
-    }
- 
-    input.setCustomValidity(mensaje);
-}
-
-
-
-function mayorEdad(fecha){
+  
+  
+  function mayorEdad(fecha) {
     const fechaActual = new Date();
     const diferenciaFechas = fechaActual - fecha;
     const edad = diferenciaFechas / (1000 * 60 * 60 * 24 * 365);
-    console.log(edad);
-    console.log(edad >= 18);
-}
+    return edad >= 18;
+  }
